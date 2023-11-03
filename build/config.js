@@ -11,6 +11,5 @@ const connectionData = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
 };
-console.log(connectionData);
 const db = mysql.createConnection(connectionData);
 export { db, connectionData };
