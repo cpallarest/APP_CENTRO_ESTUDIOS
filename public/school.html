@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/findSchoolsForSelect.js" type="module" async></script>
     <link rel="stylesheet" href="styles/style.css">
-    <script src="scripts/main.js" type="module" async></script>
     <title>Mi app</title>
 </head>
 <body>
-    <form action="/school" method="POST">
+    <form action="/schools" method="POST">
         <p>
-            <label for="center_name">Nombre del centro:</label>
-            <input type="text" name="name" id="center_name">
+            <label for="school_options">Nombre del centro:</label>
+            <select name="school" id="school_options"></select>
         </p>  
         <p>
             <input type="submit" value="Enviar">
         </p>
+        <input type="hidden" name="method" value="delete">
     </form>
 </body>
 </html>
