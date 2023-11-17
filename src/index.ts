@@ -6,18 +6,16 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 import methodOverride from 'method-override';
 
-
-
 const app: Express.Application = Express();
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(Express.static(path.join(__dirname, "..", "public")));
 app.use("/scripts", Express.static(path.join(__dirname, '..', 'build')));
-dotenv.config({path: path.join(__dirname, "..", ".env")});
 
 app.use(cors());
+
+dotenv.config({ path: path.join(__dirname, "..", ".env") });
 
 app.use(Express.urlencoded({extended:false}));
 app.use(methodOverride((req: Express.Request, res: Express.Response)=>{
@@ -28,12 +26,9 @@ app.use(methodOverride((req: Express.Request, res: Express.Response)=>{
     }
 }));
 
-
 app.use("/", router);
 
 app.listen(process.env.PORT, ()=>{
     console.log(`App is listening at port ${process.env.PORT}`);
 });
-
-
 
