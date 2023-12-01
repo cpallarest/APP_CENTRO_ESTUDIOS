@@ -6,6 +6,14 @@ import * as dotenv from 'dotenv';
 import cors from 'cors';
 import methodOverride from 'method-override';
 import { ExpressHandlebars, engine } from 'express-handlebars';
+import Session from 'express-session';
+import { sessionStore } from './configSessionStore.js';
+
+declare module 'express-session' {
+    interface SessionData {
+        token: string;
+    }
+}
 
 const app: Express.Application = Express();
 
@@ -22,6 +30,7 @@ app.use("/scripts", Express.static(path.join(__dirname, '..', 'build')));
 app.use(cors());
 
 dotenv.config({ path: path.join(__dirname, "..", ".env") });
+app.use(Express.json());
 
 app.use(Express.urlencoded({extended:false}));
 app.use(methodOverride((req: Express.Request, res: Express.Response)=>{
@@ -32,6 +41,17 @@ app.use(methodOverride((req: Express.Request, res: Express.Response)=>{
     }
 }));
 
+app.use(Session({
+    name: "sessionApiCE",
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore,
+    secret: process.env.SESSION_SECRET as string,
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: true
+    }
+}))
 app.use("/", router);
 
 app.listen(process.env.PORT, ()=>{
